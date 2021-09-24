@@ -1,0 +1,1 @@
+Repositório criado para publicar o meu desenvolvimento de aprendizagem de Estruturas de Dados e seus algoritmos, em linguagem C
