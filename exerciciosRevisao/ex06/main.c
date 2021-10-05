@@ -23,7 +23,7 @@ int main(int argc, const char * argv[]) {
 
     //print the deck
     printf("Printing deck...\n\n");
-    sleep(1);
+    sleep(3);
     printDeck(deck);
 
     printf("Number of players: ");
@@ -40,7 +40,7 @@ int main(int argc, const char * argv[]) {
         }//for
         printf("\n");
     }//for
-    sleep(1);
+    sleep(3);
 
     //calculating the amount of unplayed cards
     unplayed = unplayedCards(&deck);
