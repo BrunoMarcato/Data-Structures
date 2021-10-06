@@ -8,7 +8,7 @@
 #ifndef staticStack_h
 #define staticStack_h
 
-#define MAXTAM 8
+#define MAXTAM 100
 
 //Stack abstract type
 typedef struct {
