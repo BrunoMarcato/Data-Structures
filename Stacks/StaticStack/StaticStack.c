@@ -75,7 +75,7 @@ int pop(staticStack *stack) {
 
 //return the stack length (return the index that the top is pointing to)
 
-int stackLength(staticStack *stack) {
+int stackSize(staticStack *stack) {
     return (stack -> top);
 }//stackLength
 

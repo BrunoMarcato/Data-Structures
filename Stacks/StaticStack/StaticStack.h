@@ -22,7 +22,7 @@ bool isEmpty(staticStack *stack);
 bool isFull(staticStack *stack);
 void push(int item, staticStack *stack);
 int pop(staticStack *stack);
-int stackLength(staticStack *stack);
+int stackSize(staticStack *stack);
 int top(staticStack *stack);
 void printStack(staticStack *stack);
 

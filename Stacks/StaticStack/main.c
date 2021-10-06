@@ -23,7 +23,7 @@ int main() {
         sleep(2);
         printf("\nValue popped: %d\n", popped);
         printf("Top value at this time: %d\n\n", top(&sstack));
-        printf("Size of the stack at this moment: %d\n\n", stackLength(&sstack));
+        printf("Size of the stack at this moment: %d\n\n", stackSize(&sstack));
         printStack(&sstack);
     }//for
     
