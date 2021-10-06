@@ -9,7 +9,7 @@ Para mais informações [clique aqui](https://pt.wikipedia.org/wiki/Estrutura_de
 As estruturas de dados que serão trabalhadas neste repositório são:
 
 - [ ] Pilhas 
-   - [ ] Implementação Estática
+   - [X] Implementação Estática
    - [ ] Implementação Dinâmica
 - [ ] Filas
 - [ ] Listas Ordenadas
