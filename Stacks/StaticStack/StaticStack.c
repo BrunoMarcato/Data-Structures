@@ -65,7 +65,7 @@ int pop(staticStack *stack) {
         aux = stack -> array[stack -> top-1];
         stack -> top--;
     } else {
-        printf("nao ta dando");
+        printf("The stack is empty\n");
     }
 
     return aux;
