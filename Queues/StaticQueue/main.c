@@ -1,12 +1,5 @@
-/*
-    @author Bruno Uhlmann Marcato
-    @file StaticQueue.c
-    @date 10-11-2021
-    @brief static queue manipulation functions 
-*/
-
-#include <time.h>
 #include "StaticQueue.c"
+#include <time.h>
 
 int main(int argc, const char * argv[]) {
     //queue declaration
