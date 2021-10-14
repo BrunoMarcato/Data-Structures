@@ -97,8 +97,14 @@ int desempilhaEstatica(PilhaEstatica *pilha) {
 //-------------------------------------------------
 //-------------------------------------------------
 
+void fimprimirEstatica(PilhaEstatica *pilha, FILE* arq) {
+    for(int i = 0; i < pilha -> topo; i++) {
+        fprintf(arq, "%d\n", pilha -> array[i]);
+    }//for
+}//fimprimirEstatica
 
-
+//-------------------------------------------------
+//-------------------------------------------------
 
 
 
@@ -183,6 +189,15 @@ void destruirPilha(PilhaDinamica *pilha) {
 //-------------------------------------------------
 //-------------------------------------------------
 
+void fimprimirDinamica(PilhaDinamica *pilha, FILE* arq) {
+    PtrNoPilha walk;
+    for(walk = pilha -> topo; walk != NULL; walk = walk -> proximo) {
+        fprintf(arq, "%d\n", walk -> chave);
+    }//for
+}//fimprimirDinamica
+
+//-------------------------------------------------
+//-------------------------------------------------
 
 
 
@@ -190,43 +205,53 @@ void destruirPilha(PilhaDinamica *pilha) {
 
 
 
-
-
-
-int main(int argc, const char * argv[]) {
+// int main(int argc, const char * argv[]) {
   
-  // usando o argc 
-  printf("Numero de parametros fornecidos: %d\n", argc);
+//   // usando o argc 
+//   printf("Numero de parametros fornecidos: %d\n", argc);
   
-  if(argc!= 3) {
-    printf("Quantidade de parametros invalida\n");
-    return 0;
-  }  
+//   if(argc != 3) {
+//     printf("Quantidade de parametros invalida!\n");
+//     return 0;
+//   }  
 
-  int i = 0;
-  for(i = 0; i < argc; i++) {
-    printf("argv[%d] = %s\n", i, argv[i]);
-  }
+//   int i = 0;
+//   for(i = 0; i < argc; i++) {
+//     printf("argv[%d] = %s\n", i, argv[i]);
+//   }
+  
 
-  FILE* entrada = fopen(argv[1], "r");
-  FILE* saida   = fopen(argv[2], "w");
+//   // abrir os arquivos
+//   FILE* entrada = fopen(argv[1], "r");
+//   FILE* saida   = fopen(argv[2], "w");
 
-  // checar erros de abertura de arquivo
-  if(entrada == NULL || saida == NULL) {
-     printf("Erro: algum dos arquivos não pode ser criado corretamente\n");
-     return 0;
-  }
+//   // checar erros de abertura de arquivo
+//   if(entrada == NULL || saida == NULL) {
+//      printf("Erro: algum dos arquivos não pode ser criado corretamente!\n");
+//      exit(1);
+//   }
 
-  char ch;
-  while(!feof(entrada)) {
-    // obtendo caracter do arquivo de entrada
-    ch = fgetc(entrada);
-    // escrever esse caracter no arquivo de saida (que vai ser criado)
-    fprintf(saida, "%c", ch);
-  }
+// char ch;
+// while((ch = fgetc(entrada)) != EOF) {
+//     switch (ch) {
+//         case 'e':
+//             printf("teste01");
+//             return 0;
+//         case 'd':
+//             printf("teste02");
+//             return 0;
+//         case '\n':
+//             continue;
+//         default:
+//             printf("Modo de criacao de pilha invalido!\n");
+//             return 0;
+//    }
+// }
+  
 
-  fclose(entrada);
-  fclose(saida);
-  // chamar o destrutor da pilha dinamica
-  return 0;
-}
+
+//   fclose(entrada);
+//   fclose(saida);
+//   // chamar o destrutor da pilha dinamica
+//   return 0;
+// }
