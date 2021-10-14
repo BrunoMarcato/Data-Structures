@@ -11,9 +11,9 @@ As estruturas de dados que serão trabalhadas neste repositório são:
 - [X] Pilhas 
    - [X] Implementação Estática
    - [X] Implementação Dinâmica
-- [ ] Filas
+- [X] Filas
    - [X] Implementação Estática
-   - [ ] Implementação Dinâmica
+   - [X] Implementação Dinâmica
 - [ ] Listas Ordenadas
    - [ ] Implementação Estática
    - [ ] Implementação Dinâmica
