@@ -245,7 +245,7 @@ void DecToBinEstatica(FILE* entrada, FILE* saida) {
     }
 
     //caso o número de linhas do arquivo seja 1, encerre o programa (não há valores para transformar de decimal pra binário)
-    if((cont_linhas != tamanhoPilhaEstatica(&PilhaEstaticaArq)) || (cont_linhas == 0)) {
+    if((cont_linhas != tamanhoPilhaEstatica(&PilhaEstaticaArq)) || (cont_linhas == 1)) {
         destruirPilha(&PilhaEstaticaArq);
         fprintf(saida, "Arquivo invalido!");
         return ;
@@ -337,25 +337,25 @@ void DecToBinDinamica(FILE* entrada, FILE* saida) {
 //--------------------MAIN-------------------------
 //-------------------------------------------------
 
-int main() {
+int main(int argc, const char * argv[]) {
 
-    // // usando o argc 
-    // printf("Numero de parametros fornecidos: %d\n", argc);
+    // usando o argc 
+    printf("Numero de parametros fornecidos: %d\n", argc);
 
-    // if(argc != 3) { 
-    //     printf("Quantidade de parametros invalida!\n");
-    //     return 0;
-    // }  
+    if(argc != 3) { 
+        printf("Quantidade de parametros invalida!\n");
+        return 0;
+    }  
 
-    // int i = 0;
-    // for(i = 0; i < argc; i++) {
-    //     printf("argv[%d] = %s\n", i, argv[i]);
-    // }
+    int i = 0;
+    for(i = 0; i < argc; i++) {
+        printf("argv[%d] = %s\n", i, argv[i]);
+    }
 
     // abertura dos arquivos
     FILE *entrada, *new_entrada; //um novo arquivo é criado pois será feito duas leituras no mesmo arquivo
-    entrada = new_entrada = fopen("entrada06.txt", "r");
-    FILE* saida   = fopen("saida6.txt", "w");
+    entrada = new_entrada = fopen(argv[1], "r");
+    FILE* saida   = fopen(argv[2], "w");
 
     if(entrada == NULL || new_entrada == NULL || saida == NULL) {
         printf("Erro: algum dos arquivos não pode ser criado corretamente!\n");
