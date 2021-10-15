@@ -105,14 +105,6 @@ int tamanhoPilhaEstatica(PilhaEstatica *pilha) {
 //------------------------------------------------
 //------------------------------------------------
 
-void printStack(PilhaEstatica *pilha) {
-    printf("{ ");
-    for(int i = 0; i < pilha -> topo; i++) {
-        printf("%d ", pilha -> array[i]);
-    }//for
-    printf("}\n");
-}//printStack
-
 
 
 
@@ -211,27 +203,29 @@ void DecToBinEstatica(FILE* entrada, FILE* saida) {
     PilhaEstatica PilhaEstaticaDTB;//pilha para manipulação do D2B
     PilhaEstatica PilhaEstaticaArq;//pilha para impressão no arquivo na ordem contrária
     float nf; //variável para testar se o número lido do arquivo é float ou int
-    int ni, resto, desempilhado; //ni = converter o número lido para inteiro; resto = recebe o resto da divisão na conversão de decimal pra binário; desempilhado = recebe o valor desempilhado da pilha
+    int ni, resto, desempilhado, cont_linhas = 0; //ni = converter o número lido para inteiro; resto = recebe o resto da divisão na conversão de decimal pra binário;
+    //desempilhado = recebe o valor desempilhado da pilha; contador = conta o número de linhas no arquivo, evitando que se use lixo de memória como dado
     //========================================================
-
 
     iniciaEstatica(&PilhaEstaticaArq);
 
-    while(!feof(entrada)) {
+    char c;
+    while((c = fgetc(entrada)) != EOF) {
+
+        //contar o número de linhas no arquivo
+        if(c == '\n') cont_linhas++;
+
         fscanf(entrada, "%f", &nf);
         if(nf == (int)nf && nf >= 0) {//se a conversão do float para int for igual ao float original, então n já era int e portanto válido
             ni = (int)nf; //converter o float para int
             //inicialização da pilha estática de conversão
             iniciaEstatica(&PilhaEstaticaDTB);
             //converter o inteiro decimal n para binário e empilhar os digitos
-            if(ni == 0) {
-                empilhaEstatica(ni, &PilhaEstaticaArq);
-            } else {
-                while(ni > 0) {
-                    resto = ni % 2;
-                    ni /= 2;
-                    empilhaEstatica(resto, &PilhaEstaticaDTB);
-                }
+            do {
+                resto = ni % 2;
+                ni /= 2;
+                empilhaEstatica(resto, &PilhaEstaticaDTB);
+            } while(ni > 0);
 
                 //colocar os números binários na pilha de troca de ordem
                 int tam = tamanhoPilhaEstatica(&PilhaEstaticaDTB); //tamanho da pilha
@@ -243,10 +237,20 @@ void DecToBinEstatica(FILE* entrada, FILE* saida) {
                 }
                 empilhaEstatica(numerosDesempilhados, &PilhaEstaticaArq); //empilha o binário na pilha de troca de ordem
                 numerosDesempilhados = 0; //reseta o valor pra 0
-            }
 
-        } else printf("Erro! %.1f e um valor invalido!!\nOs outros valores ainda serao exibidos...\n\n", nf); //warning para caso o valor seja negativo ou não inteiro
+        } else {
+            fprintf(saida, "Arquivo inválido!"); //warning para caso o valor seja negativo ou não inteiro
+            return ;
+        }
     }
+
+    //caso o número de linhas do arquivo seja 1, encerre o programa (não há valores para transformar de decimal pra binário)
+    if((cont_linhas != tamanhoPilhaEstatica(&PilhaEstaticaArq)) || (cont_linhas == 0)) {
+        destruirPilha(&PilhaEstaticaArq);
+        fprintf(saida, "Arquivo invalido!");
+        return ;
+    }
+
 
     //desempilhar os valores da pilha de troca de ordem e imprimir no arquivo de saída
     while(!estaVaziaEstatica(&PilhaEstaticaArq)) {
@@ -263,29 +267,31 @@ void DecToBinDinamica(FILE* entrada, FILE* saida) {
 
     //============DECLARAÇÃO DE VARIÁVEIS=====================
     PilhaDinamica PilhaDinamicaDTB;//pilha para manipulação do D2B
-    PilhaEstatica PilhaDinamicaArq;//pilha para impressão no arquivo na ordem contrária
+    PilhaDinamica PilhaDinamicaArq;//pilha para impressão no arquivo na ordem contrária
     float nf; //variável para testar se o número lido do arquivo é float ou int
-    int ni, resto, desempilhado; //ni = converter o número lido para inteiro; resto = recebe o resto da divisão na conversão de decimal pra binário; desempilhado = recebe o valor desempilhado da pilha
+    int ni, resto, desempilhado, cont_linhas = 0; //ni = converter o número lido para inteiro; resto = recebe o resto da divisão na conversão de decimal pra binário; desempilhado = recebe o valor desempilhado da pilha
     //========================================================
-
 
     iniciaDinamica(&PilhaDinamicaArq);
 
-    while(!feof(entrada)) {
+    char c;
+    while((c = fgetc(entrada)) != EOF) {
+
+        //contar o número de linhas no arquivo
+        if(c == '\n') cont_linhas++;
+
         fscanf(entrada, "%f", &nf);
         if(nf == (int)nf && nf >= 0) {//se a conversão do float para int for igual ao float original, então n já era int e portanto válido
             ni = (int)nf; //converter o float para int
             //inicialização da pilha estática de conversão
             iniciaDinamica(&PilhaDinamicaDTB);
             //converter o inteiro decimal n para binário e empilhar os digitos
-            if(ni == 0) {
-                empilhaDinamica(ni, &PilhaDinamicaArq);
-            } else {
-                while(ni > 0) {
+
+                do {
                     resto = ni % 2;
                     ni /= 2;
                     empilhaDinamica(resto, &PilhaDinamicaDTB);
-                }
+                } while(ni > 0);
 
                 //colocar os números binários na pilha de troca de ordem
                 int tam = tamanhoPilhaDinamica(&PilhaDinamicaDTB); //tamanho da pilha
@@ -297,10 +303,20 @@ void DecToBinDinamica(FILE* entrada, FILE* saida) {
                 }
                 empilhaDinamica(numerosDesempilhados, &PilhaDinamicaArq); //empilha o binário na pilha de troca de ordem
                 numerosDesempilhados = 0; //reseta o valor pra 0
-            }
 
-        } else printf("Erro! %.1f e um valor invalido!!\nOs outros valores ainda serao exibidos...\n\n", nf); //warning para caso o valor seja negativo ou não inteiro
+        } else {
+            fprintf(saida, "Arquivo inválido!"); //warning para caso o valor seja negativo ou não inteiro
+            return ;            
+        }
     }
+
+    //caso o número de linhas do arquivo seja 1, encerre o programa (não há valores para transformar de decimal pra binário)
+    if((cont_linhas != tamanhoPilhaDinamica(&PilhaDinamicaArq)) || (cont_linhas == 0)) {
+        destruirPilha(&PilhaDinamicaArq);
+        fprintf(saida, "Arquivo invalido!");
+        return ;
+    }
+
 
     //desempilhar os valores da pilha de troca de ordem e imprimir no arquivo de saída
     while(!estaVaziaDinamica(&PilhaDinamicaArq)) {
@@ -337,29 +353,28 @@ int main(int argc, const char * argv[]) {
     }
 
     // abertura dos arquivos
-    FILE* entrada = fopen("entrada01.txt", "r");
-    FILE* saida   = fopen("saida01.txt", "w");
+    FILE *entrada, *new_entrada; //um novo arquivo é criado pois será feito duas leituras no mesmo arquivo
+    entrada = new_entrada = fopen(argv[1], "r");
+    FILE* saida   = fopen(argv[2], "w");
 
-    if(entrada == NULL || saida == NULL) {
+    if(entrada == NULL || new_entrada == NULL || saida == NULL) {
         printf("Erro: algum dos arquivos não pode ser criado corretamente!\n");
         exit(1);
     }
-
+    
     char ch;
-    while((ch = fgetc(entrada)) != EOF) {
+    while((ch = fgetc(entrada)) != EOF) { 
+
         switch (ch) {
             case 'e':
-                DecToBinEstatica(argv[1], argv[2]); //chamando a função de conversão pra pilha estática
+                DecToBinEstatica(new_entrada, saida); //chamando a função de conversão pra pilha estática
                 return 0;
             case 'd':
-                DecToBinEstatica(argv[1], argv[2]); //chamando a função de conversão pra pilha dinâmica
+                DecToBinDinamica(new_entrada, saida); //chamando a função de conversão pra pilha dinâmica
                 return 0;
 
-            case '\n':
-                continue; //caso encontre um '\n' apenas continue o loop
-
             default:
-                printf("Modo de criacao de pilha invalido!\n");
+                fprintf(saida, "Arquivo invalido!");
                 return 0;
         }
     }
@@ -367,10 +382,10 @@ int main(int argc, const char * argv[]) {
     //fechamento dos arquivos
     fclose(entrada);
     fclose(saida);
-
+    fclose(new_entrada);
 
 
     return 0;
 }//main
 
-//---------------FIM DE PROGRAMA----------------------------
+//--------------------FIM DO PROGRAMA--------------------
