@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <math.h>
 
 #define MAXTAM 100
 
@@ -26,32 +27,32 @@ typedef struct {
 
 
 //Funções de manipulação/Consulta da Pilha Estática
-//-------------------------------------------------
-//-------------------------------------------------
+//------------------------------------------------
+//------------------------------------------------
 
 //Iniciar a Pilha Estática
 void iniciaEstatica(PilhaEstatica *pilha) {
     pilha -> topo = 0;
 }//iniciaEstatica
 
-//-------------------------------------------------
-//-------------------------------------------------
+//------------------------------------------------
+//------------------------------------------------
 
 //Verificar se a pilha está vazia (retorna true se a pilha estiver com o topo na primeira posição do vetor)
 bool estaVaziaEstatica(PilhaEstatica *pilha) {
     return (pilha -> topo == 0);
 }//estaVaziaEstatica
 
-//-------------------------------------------------
-//-------------------------------------------------
+//------------------------------------------------
+//------------------------------------------------
 
 //Verificar se a pilha está cheia (retorna true se a pilha atingiu MAXTAM)
 bool estaCheiaEstatica(PilhaEstatica *pilha) {
     return (pilha -> topo == MAXTAM);
 }//estaCheiaEstatica
 
-//-------------------------------------------------
-//-------------------------------------------------
+//------------------------------------------------
+//------------------------------------------------
 
 // 1) Verificar se a pilha está cheia;
 //   1.1) Se sim, imprima um Warning na tela (pois não é possível inserir mais elementos em uma pilha(vetor) que já tem todos os campos preenchidos);
@@ -65,12 +66,12 @@ void empilhaEstatica(int item, PilhaEstatica *pilha) {
         pilha -> array[pilha -> topo] = item;
         pilha -> topo++;
     } else {
-        printf("Warning: A pilha já está cheia!\n");
+        printf("Warning: A pilha ja esta cheia!\n");
     }
 }//empilhaEstatica
 
-//-------------------------------------------------
-//-------------------------------------------------
+//------------------------------------------------
+//------------------------------------------------
 
 // 1) Criar uma variável auxiliar (int) (ela deve receber algum valor na declaração para o caso de não ser alterada durante a execução, pois será retornada ao final da função);
 // 2) Verificar se a pilha está vazia;
@@ -88,32 +89,45 @@ int desempilhaEstatica(PilhaEstatica *pilha) {
         aux = pilha -> array[pilha -> topo - 1];
         pilha -> topo--;
     } else {
-        printf("Warning: A pilha já está vazia!\n");
+        printf("Warning: A pilha ja esta vazia!\n");
     }
 
     return aux;
 }//desempilhaEstatica
 
-//-------------------------------------------------
-//-------------------------------------------------
+//------------------------------------------------
+//------------------------------------------------
 
-void fimprimirEstatica(PilhaEstatica *pilha, FILE* arq) {
+void fimprimeEstatica(PilhaEstatica *pilha, FILE* arq) {
     for(int i = 0; i < pilha -> topo; i++) {
-        fprintf(arq, "%d\n", pilha -> array[i]);
+        fprintf(arq, "%d", pilha -> array[i]);
     }//for
+    fprintf(arq, "\n");
 }//fimprimirEstatica
 
-//-------------------------------------------------
-//-------------------------------------------------
+//------------------------------------------------
+//------------------------------------------------
 
+int tamanhoPilha(PilhaEstatica *pilha) {
+    return (pilha -> topo);
+}//tamanhoPilha
 
+//------------------------------------------------
+//------------------------------------------------
 
+void printStack(PilhaEstatica *pilha) {
+    printf("{ ");
+    for(int i = 0; i < pilha -> topo; i++) {
+        printf("%d ", pilha -> array[i]);
+    }//for
+    printf("}\n");
+}//printStack
 
 
 
 //Funções de manipulação/Consulta da Pilha Dinâmica
-//-------------------------------------------------
-//-------------------------------------------------
+//------------------------------------------------
+//------------------------------------------------
 
 //iniciar a Pilha Dinâmica
 void iniciaDinamica(PilhaDinamica *pilha) {
@@ -121,16 +135,16 @@ void iniciaDinamica(PilhaDinamica *pilha) {
     pilha -> tamanho = 0;
 }//iniciaDinamica
 
-//-------------------------------------------------
-//-------------------------------------------------
+//------------------------------------------------
+//------------------------------------------------
 
 //Verifica se a pilha está vazia (retorna true se o tamanho for 0)
 bool estaVaziaDinamica(PilhaDinamica *pilha) {
     return (pilha -> tamanho == 0);
 }//estaVaziaDinamica
 
-//-------------------------------------------------
-//-------------------------------------------------
+//------------------------------------------------
+//------------------------------------------------
 
 // 1) Criar um nó de pilha auxiliar e alocar memória para ele;
 // 2) A chave do nó auxiliar recebe o valor passado para o usuário e aponta para o nó apontado pelo topo;
@@ -145,8 +159,8 @@ void empilhaDinamica(int item, PilhaDinamica *pilha) {
     pilha -> tamanho++;
 }//push
 
-//-------------------------------------------------
-//-------------------------------------------------
+//------------------------------------------------
+//------------------------------------------------
 
 // 1) Criar uma variável de retorno na qual recebe um valor na declaração para o caso dela não ser alterada durante a execução da função;
 // 2) Verifica se a pilha está vazia:
@@ -172,8 +186,8 @@ int desempilhaDinamica(PilhaDinamica *pilha) {
     return ret;
 }//desempilhaDinamica
 
-//-------------------------------------------------
-//-------------------------------------------------
+//------------------------------------------------
+//------------------------------------------------
 
 // 1) Criar um nó de pilha para percorrer por toda a pilha usando um loop;
 // 2) A cada iteração do loop, desaloca-se a memória do nó atual.
@@ -186,72 +200,127 @@ void destruirPilha(PilhaDinamica *pilha) {
 
 }//destruirPilha
 
-//-------------------------------------------------
-//-------------------------------------------------
+//------------------------------------------------
+//------------------------------------------------
 
-void fimprimirDinamica(PilhaDinamica *pilha, FILE* arq) {
+void fimprimeDinamica(PilhaDinamica *pilha, FILE* arq) {
     PtrNoPilha walk;
     for(walk = pilha -> topo; walk != NULL; walk = walk -> proximo) {
         fprintf(arq, "%d\n", walk -> chave);
     }//for
 }//fimprimirDinamica
 
+//------------------------------------------------
+//------------------------------------------------
+//--FUNÇÕES DE TRANSFORMAÇÃO DECIMAL PRA BINÁRIO--
+//------------------------------------------------
+//------------------------------------------------
+
+void DecToBinEstatica(FILE* entrada, FILE* saida) {
+
+
+    //============DECLARAÇÃO DE VARIÁVEIS=====================
+    PilhaEstatica PilhaEstaticaDTB;//pilha para manipulação do D2B
+    PilhaEstatica PilhaEstaticaArq;//pilha para impressão no arquivo na ordem contrária
+    float nf; //variável para testar se o número lido do arquivo é float ou int
+    int ni, resto, desempilhado; //ni = converter o número lido para inteiro; resto = recebe o resto da divisão na conversão de decimal pra binário; desempilhado = recebe o valor desempilhado da pilha
+    //========================================================
+
+
+    iniciaEstatica(&PilhaEstaticaArq);
+
+    while(!feof(entrada)) {
+        fscanf(entrada, "%f", &nf);
+        if(nf == (int)nf && nf >= 0) {//se a conversão do float para int for igual ao float original, então n já era int e portanto válido
+            ni = (int)nf; //converter o float para int
+            //inicialização da pilha estática de conversão
+            iniciaEstatica(&PilhaEstaticaDTB);
+            //converter o inteiro decimal n para binário e empilhar os digitos
+            if(ni == 0) {
+                empilhaEstatica(ni, &PilhaEstaticaArq);
+            } else {
+                while(ni > 0) {
+                    resto = ni % 2;
+                    ni /= 2;
+                    empilhaEstatica(resto, &PilhaEstaticaDTB);
+                }
+
+                //colocar os números binários na pilha de troca de ordem
+                int tam = tamanhoPilha(&PilhaEstaticaDTB); //tamanho da pilha
+                int numerosDesempilhados = 0; //variável para transformar todos os valores desempilhados em um único número 
+                while(!estaVaziaEstatica(&PilhaEstaticaDTB)) {
+                    desempilhado = desempilhaEstatica(&PilhaEstaticaDTB);
+                    numerosDesempilhados += desempilhado * pow(10, tam-1); //detecta se o valor é uma unidade/dezena/centena/... (imaginando o binário como se fosse um decimal)
+                    tam -= 1;
+                }
+                empilhaEstatica(numerosDesempilhados, &PilhaEstaticaArq); //empilha o binário na pilha de troca de ordem
+                numerosDesempilhados = 0; //reseta o valor pra 0
+            }
+
+        } else fprintf(saida, "Valor invalido!"); //warning para caso o valor seja negativo ou não inteiro
+    }
+
+    //desempilhar os valores da pilha de troca de ordem e imprimir no arquivo de saída
+    while(!estaVaziaEstatica(&PilhaEstaticaArq)) {
+        desempilhado = desempilhaEstatica(&PilhaEstaticaArq);
+        fprintf(saida, "%d\n", desempilhado);
+    }
+}//DecToBinEstatica
+
 //-------------------------------------------------
+//--------------------MAIN-------------------------
 //-------------------------------------------------
 
-
-
-
-
-
-
-// int main(int argc, const char * argv[]) {
+//  int main(int argc, const char * argv[]) {
   
-//   // usando o argc 
-//   printf("Numero de parametros fornecidos: %d\n", argc);
+//     // usando o argc 
+//     printf("Numero de parametros fornecidos: %d\n", argc);
+    
+//     if(argc != 3) {
+//         printf("Quantidade de parametros invalida!\n");
+//         return 0;
+//     }  
+
+//     int i = 0;
+//     for(i = 0; i < argc; i++) {
+//         printf("argv[%d] = %s\n", i, argv[i]);
+//     }
   
-//   if(argc != 3) {
-//     printf("Quantidade de parametros invalida!\n");
-//     return 0;
-//   }  
+//     // abrir os arquivos
+//     FILE* entrada = fopen("entrada01.txt", "r");
+//     FILE* saida   = fopen("saida01.txt", "w");
 
-//   int i = 0;
-//   for(i = 0; i < argc; i++) {
-//     printf("argv[%d] = %s\n", i, argv[i]);
-//   }
-  
-
-//   // abrir os arquivos
-//   FILE* entrada = fopen(argv[1], "r");
-//   FILE* saida   = fopen(argv[2], "w");
-
-//   // checar erros de abertura de arquivo
-//   if(entrada == NULL || saida == NULL) {
+//     if(entrada == NULL || saida == NULL) {
 //      printf("Erro: algum dos arquivos não pode ser criado corretamente!\n");
 //      exit(1);
-//   }
+//     }
 
-// char ch;
-// while((ch = fgetc(entrada)) != EOF) {
-//     switch (ch) {
-//         case 'e':
-//             printf("teste01");
-//             return 0;
-//         case 'd':
-//             printf("teste02");
-//             return 0;
-//         case '\n':
-//             continue;
-//         default:
-//             printf("Modo de criacao de pilha invalido!\n");
-//             return 0;
-//    }
-// }
-  
+//     while((ch = fgetc(entrada)) != EOF) {
+//         switch (ch) {
+//             case 'e':
+//                 DecToBinEstatica(argv[1], argv[2]);
+//                 return 0;
+
+//             case 'd':
+//                 //PilhaDinamica dpilha;
 
 
-//   fclose(entrada);
-//   fclose(saida);
-//   // chamar o destrutor da pilha dinamica
-//   return 0;
-// }
+
+
+//                 return 0;
+
+//             case '\n':
+//                 continue;
+
+
+//             default:
+//                 printf("Modo de criacao de pilha invalido!\n");
+//                 return 0;
+
+//        }
+//     }
+
+//     fclose(entrada);
+//     fclose(saida);
+//     return 0;
+//     }
