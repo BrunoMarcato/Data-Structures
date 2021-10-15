@@ -98,19 +98,9 @@ int desempilhaEstatica(PilhaEstatica *pilha) {
 //------------------------------------------------
 //------------------------------------------------
 
-void fimprimeEstatica(PilhaEstatica *pilha, FILE* arq) {
-    for(int i = 0; i < pilha -> topo; i++) {
-        fprintf(arq, "%d", pilha -> array[i]);
-    }//for
-    fprintf(arq, "\n");
-}//fimprimirEstatica
-
-//------------------------------------------------
-//------------------------------------------------
-
-int tamanhoPilha(PilhaEstatica *pilha) {
+int tamanhoPilhaEstatica(PilhaEstatica *pilha) {
     return (pilha -> topo);
-}//tamanhoPilha
+}//tamanhoPilhaEstatica
 
 //------------------------------------------------
 //------------------------------------------------
@@ -122,6 +112,7 @@ void printStack(PilhaEstatica *pilha) {
     }//for
     printf("}\n");
 }//printStack
+
 
 
 
@@ -157,7 +148,7 @@ void empilhaDinamica(int item, PilhaDinamica *pilha) {
     aux -> proximo  = pilha -> topo;
     pilha -> topo = aux;
     pilha -> tamanho++;
-}//push
+}//empilhaDinamica
 
 //------------------------------------------------
 //------------------------------------------------
@@ -192,7 +183,7 @@ int desempilhaDinamica(PilhaDinamica *pilha) {
 // 1) Criar um nó de pilha para percorrer por toda a pilha usando um loop;
 // 2) A cada iteração do loop, desaloca-se a memória do nó atual.
 void destruirPilha(PilhaDinamica *pilha) {
-    printf("Destruindo pilha...");
+    printf("Destruindo pilha...\n");
 
     while(!estaVaziaDinamica(pilha)) {
         desempilhaDinamica(pilha);
@@ -203,12 +194,9 @@ void destruirPilha(PilhaDinamica *pilha) {
 //------------------------------------------------
 //------------------------------------------------
 
-void fimprimeDinamica(PilhaDinamica *pilha, FILE* arq) {
-    PtrNoPilha walk;
-    for(walk = pilha -> topo; walk != NULL; walk = walk -> proximo) {
-        fprintf(arq, "%d\n", walk -> chave);
-    }//for
-}//fimprimirDinamica
+int tamanhoPilhaDinamica(PilhaDinamica *pilha) {
+    return (pilha -> tamanho);
+}//tamanhoPilhaDinamica
 
 //------------------------------------------------
 //------------------------------------------------
@@ -246,7 +234,7 @@ void DecToBinEstatica(FILE* entrada, FILE* saida) {
                 }
 
                 //colocar os números binários na pilha de troca de ordem
-                int tam = tamanhoPilha(&PilhaEstaticaDTB); //tamanho da pilha
+                int tam = tamanhoPilhaEstatica(&PilhaEstaticaDTB); //tamanho da pilha
                 int numerosDesempilhados = 0; //variável para transformar todos os valores desempilhados em um único número 
                 while(!estaVaziaEstatica(&PilhaEstaticaDTB)) {
                     desempilhado = desempilhaEstatica(&PilhaEstaticaDTB);
@@ -257,7 +245,7 @@ void DecToBinEstatica(FILE* entrada, FILE* saida) {
                 numerosDesempilhados = 0; //reseta o valor pra 0
             }
 
-        } else fprintf(saida, "Valor invalido!"); //warning para caso o valor seja negativo ou não inteiro
+        } else printf("Erro! %.1f e um valor invalido!!\nOs outros valores ainda serao exibidos...\n\n", nf); //warning para caso o valor seja negativo ou não inteiro
     }
 
     //desempilhar os valores da pilha de troca de ordem e imprimir no arquivo de saída
@@ -267,60 +255,122 @@ void DecToBinEstatica(FILE* entrada, FILE* saida) {
     }
 }//DecToBinEstatica
 
+//------------------------------------------------
+//------------------------------------------------
+
+void DecToBinDinamica(FILE* entrada, FILE* saida) {
+
+
+    //============DECLARAÇÃO DE VARIÁVEIS=====================
+    PilhaDinamica PilhaDinamicaDTB;//pilha para manipulação do D2B
+    PilhaEstatica PilhaDinamicaArq;//pilha para impressão no arquivo na ordem contrária
+    float nf; //variável para testar se o número lido do arquivo é float ou int
+    int ni, resto, desempilhado; //ni = converter o número lido para inteiro; resto = recebe o resto da divisão na conversão de decimal pra binário; desempilhado = recebe o valor desempilhado da pilha
+    //========================================================
+
+
+    iniciaDinamica(&PilhaDinamicaArq);
+
+    while(!feof(entrada)) {
+        fscanf(entrada, "%f", &nf);
+        if(nf == (int)nf && nf >= 0) {//se a conversão do float para int for igual ao float original, então n já era int e portanto válido
+            ni = (int)nf; //converter o float para int
+            //inicialização da pilha estática de conversão
+            iniciaDinamica(&PilhaDinamicaDTB);
+            //converter o inteiro decimal n para binário e empilhar os digitos
+            if(ni == 0) {
+                empilhaDinamica(ni, &PilhaDinamicaArq);
+            } else {
+                while(ni > 0) {
+                    resto = ni % 2;
+                    ni /= 2;
+                    empilhaDinamica(resto, &PilhaDinamicaDTB);
+                }
+
+                //colocar os números binários na pilha de troca de ordem
+                int tam = tamanhoPilhaDinamica(&PilhaDinamicaDTB); //tamanho da pilha
+                int numerosDesempilhados = 0; //variável para transformar todos os valores desempilhados em um único número 
+                while(!estaVaziaDinamica(&PilhaDinamicaDTB)) {
+                    desempilhado = desempilhaDinamica(&PilhaDinamicaDTB);
+                    numerosDesempilhados += desempilhado * pow(10, tam-1); //detecta se o valor é uma unidade/dezena/centena/... (imaginando o binário como se fosse um decimal)
+                    tam -= 1;
+                }
+                empilhaDinamica(numerosDesempilhados, &PilhaDinamicaArq); //empilha o binário na pilha de troca de ordem
+                numerosDesempilhados = 0; //reseta o valor pra 0
+            }
+
+        } else printf("Erro! %.1f e um valor invalido!!\nOs outros valores ainda serao exibidos...\n\n", nf); //warning para caso o valor seja negativo ou não inteiro
+    }
+
+    //desempilhar os valores da pilha de troca de ordem e imprimir no arquivo de saída
+    while(!estaVaziaDinamica(&PilhaDinamicaArq)) {
+        desempilhado = desempilhaDinamica(&PilhaDinamicaArq);
+        fprintf(saida, "%d\n", desempilhado);
+    }
+
+    //destruição das pilhas dinâmicas
+    destruirPilha(&PilhaDinamicaDTB);
+    destruirPilha(&PilhaDinamicaArq);
+    
+}//DecToBinDinamica
+
+//------------------------------------------------
+//------------------------------------------------
+
 //-------------------------------------------------
 //--------------------MAIN-------------------------
 //-------------------------------------------------
 
-//  int main(int argc, const char * argv[]) {
-  
-//     // usando o argc 
-//     printf("Numero de parametros fornecidos: %d\n", argc);
-    
-//     if(argc != 3) {
-//         printf("Quantidade de parametros invalida!\n");
-//         return 0;
-//     }  
+int main(int argc, const char * argv[]) {
 
-//     int i = 0;
-//     for(i = 0; i < argc; i++) {
-//         printf("argv[%d] = %s\n", i, argv[i]);
-//     }
-  
-//     // abrir os arquivos
-//     FILE* entrada = fopen("entrada01.txt", "r");
-//     FILE* saida   = fopen("saida01.txt", "w");
+    // usando o argc 
+    printf("Numero de parametros fornecidos: %d\n", argc);
 
-//     if(entrada == NULL || saida == NULL) {
-//      printf("Erro: algum dos arquivos não pode ser criado corretamente!\n");
-//      exit(1);
-//     }
+    if(argc != 3) { 
+        printf("Quantidade de parametros invalida!\n");
+        return 0;
+    }  
 
-//     while((ch = fgetc(entrada)) != EOF) {
-//         switch (ch) {
-//             case 'e':
-//                 DecToBinEstatica(argv[1], argv[2]);
-//                 return 0;
+    int i = 0;
+    for(i = 0; i < argc; i++) {
+        printf("argv[%d] = %s\n", i, argv[i]);
+    }
 
-//             case 'd':
-//                 //PilhaDinamica dpilha;
+    // abertura dos arquivos
+    FILE* entrada = fopen("entrada01.txt", "r");
+    FILE* saida   = fopen("saida01.txt", "w");
+
+    if(entrada == NULL || saida == NULL) {
+        printf("Erro: algum dos arquivos não pode ser criado corretamente!\n");
+        exit(1);
+    }
+
+    char ch;
+    while((ch = fgetc(entrada)) != EOF) {
+        switch (ch) {
+            case 'e':
+                DecToBinEstatica(argv[1], argv[2]); //chamando a função de conversão pra pilha estática
+                return 0;
+            case 'd':
+                DecToBinEstatica(argv[1], argv[2]); //chamando a função de conversão pra pilha dinâmica
+                return 0;
+
+            case '\n':
+                continue; //caso encontre um '\n' apenas continue o loop
+
+            default:
+                printf("Modo de criacao de pilha invalido!\n");
+                return 0;
+        }
+    }
+
+    //fechamento dos arquivos
+    fclose(entrada);
+    fclose(saida);
 
 
 
+    return 0;
+}//main
 
-//                 return 0;
-
-//             case '\n':
-//                 continue;
-
-
-//             default:
-//                 printf("Modo de criacao de pilha invalido!\n");
-//                 return 0;
-
-//        }
-//     }
-
-//     fclose(entrada);
-//     fclose(saida);
-//     return 0;
-//     }
+//---------------FIM DE PROGRAMA----------------------------
