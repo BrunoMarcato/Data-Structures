@@ -246,7 +246,6 @@ void DecToBinEstatica(FILE* entrada, FILE* saida) {
 
     //caso o número de linhas do arquivo seja 1, encerre o programa (não há valores para transformar de decimal pra binário)
     if((cont_linhas != tamanhoPilhaEstatica(&PilhaEstaticaArq)) || (cont_linhas == 1)) {
-        destruirPilha(&PilhaEstaticaArq);
         fprintf(saida, "Arquivo invalido!");
         return ;
     }
