@@ -60,7 +60,10 @@ void printQueue(DynamicQueue *queue) {
 //----------------------------------------------
 
 void destroy(DynamicQueue *queue) {
-    free(queue);
+    Pointer ptr;
+    for(ptr = queue -> start; ptr != NULL; ptr = ptr -> next) {
+        free(ptr);    
+    }
 }//destroy
 
 //----------------------------------------------
