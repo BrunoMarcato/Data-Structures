@@ -19,7 +19,7 @@ void initQueue(DynamicQueue *queue) {
 
 void enqueue(int x, DynamicQueue *queue) {
     Pointer aux;
-    aux = (Pointer)malloc(sizeof(NodeQueue));
+    aux = malloc(sizeof(NodeQueue));
     aux -> item = x;
     if(isEmpty(queue)) {
         queue -> start = queue -> end = aux;
@@ -35,15 +35,16 @@ void enqueue(int x, DynamicQueue *queue) {
 //----------------------------------------------
 
 int dequeue(DynamicQueue *queue) {
+    int ret = -9999;
     //cannot remove if empty 
     if(!isEmpty(queue)) {
-        Pointer aux;
-        aux = (Pointer)malloc(sizeof(NodeQueue));
-        aux = queue -> start;
+        Pointer aux = queue -> start;
+        ret = aux -> item;
         queue -> start = queue -> start -> next;
         queue -> size--;
-        return (aux -> item);
+        free(aux);
     } else printf("The Queue is Empty!\n");
+    return ret;
 }//dequeue
 
 //----------------------------------------------
