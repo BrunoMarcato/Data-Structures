@@ -5,11 +5,6 @@
     @brief methods archive of exercise 6
 */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <time.h>
-#include <conio.h>
 #include "ex06.h"
 
 //global variables
