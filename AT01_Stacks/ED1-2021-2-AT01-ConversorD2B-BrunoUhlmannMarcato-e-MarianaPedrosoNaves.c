@@ -258,8 +258,6 @@ void DecToBinEstatica(FILE* entrada, FILE* saida) {
     }
 }//DecToBinEstatica
 
-
-
 //------------------------------------------------
 //------------------------------------------------
 
@@ -346,7 +344,7 @@ int main(int argc, const char * argv[]) {
     if(argc != 3) { 
         printf("Quantidade de parametros invalida!\n");
         return 0;
-    }
+    }  
 
     int i = 0;
     for(i = 0; i < argc; i++) {
