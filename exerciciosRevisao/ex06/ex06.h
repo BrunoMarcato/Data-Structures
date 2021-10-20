@@ -4,7 +4,11 @@
     @file ex06.h
     @brief header archive of exercise 6
 */
+#include <stdio.h>
+#include <stdlib.h>
 #include <stdbool.h>
+#include <time.h>
+#include <conio.h>
 
 #ifndef ex06_h
 #define ex06_h
