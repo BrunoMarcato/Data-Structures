@@ -14,7 +14,7 @@ As estruturas de dados que serão trabalhadas neste repositório são:
 - [X] Filas
    - [X] Implementação Estática
    - [X] Implementação Dinâmica
-- [ ] Listas Ordenadas
+- [ ] Listas Ordenadas (Implementação Dinâmica)
    - [ ] Lista Singularmente Encadeada
    - [ ] Lista Duplamente Encadeada
 - [ ] Árvores binárias
