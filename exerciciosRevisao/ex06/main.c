@@ -5,7 +5,6 @@
     @brief main function and aplications of exercise 6
 */
 
-#include <time.h>
 #include "ex06.c"
 
 int main(int argc, const char * argv[]) {
