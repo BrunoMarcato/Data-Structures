@@ -5,8 +5,6 @@
     @brief main function and aplications of exercise 6
 */
 
-#include <stdio.h>
-#include <stdlib.h>
 #include <time.h>
 #include "ex06.c"
 
