@@ -15,8 +15,8 @@ As estruturas de dados que serão trabalhadas neste repositório são:
    - [X] Implementação Estática
    - [X] Implementação Dinâmica
 - [ ] Listas Ordenadas
-   - [ ] Implementação Estática
-   - [ ] Implementação Dinâmica
+   - [ ] Singly linked list
+   - [ ] Doubly linked list
 - [ ] Árvores binárias
 - [ ] Árvores AVL
 - [ ] Tabela Hash
