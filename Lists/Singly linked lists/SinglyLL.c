@@ -86,16 +86,15 @@ void destroyList(List *list) {
 //  if the pointer is null or its element is greater than the number passed as argument, then the element does not exist in the list 
 //  if the last topic is false, so the element exist
 bool search(List *list, int key) {
-    if(!isEmpty) {
+    if(!isEmpty(list)) {
         Pointer aux = list -> first;
         while(aux != NULL || key > aux -> element) {
-            aux -> next;
+            aux = aux -> next;
         }
         if(aux == NULL || aux -> element > key) {
             return false;
-        } else {
-            return true;
         }
+        return true;
     } else {
         return false;
     }
