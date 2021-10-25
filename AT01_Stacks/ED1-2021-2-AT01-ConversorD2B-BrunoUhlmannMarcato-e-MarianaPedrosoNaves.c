@@ -246,7 +246,7 @@ void DecToBinEstatica(FILE* entrada, FILE* saida) {
                 int numerosDesempilhados = 0; //variável para transformar todos os valores desempilhados em um único número 
                 while(!estaVaziaEstatica(&PilhaEstaticaDTB)) {
                     desempilhado = desempilhaEstatica(&PilhaEstaticaDTB);
-                    numerosDesempilhados += desempilhado * pow(10, tam-1); //detecta se o valor é uma unidade/dezena/centena/... (imaginando o binário como se fosse um decimal)
+                    numerosDesempilhados += desempilhado * power(10, tam-1); //detecta se o valor é uma unidade/dezena/centena/... (imaginando o binário como se fosse um decimal)
                     tam -= 1;
                 }
                 empilhaEstatica(numerosDesempilhados, &PilhaEstaticaArq); //empilha o binário na pilha de troca de ordem
