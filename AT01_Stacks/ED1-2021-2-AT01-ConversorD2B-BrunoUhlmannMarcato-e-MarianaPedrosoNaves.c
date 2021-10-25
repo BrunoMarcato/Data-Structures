@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include <math.h>
 
 #define MAXTAM 100
 
@@ -24,6 +23,21 @@ typedef struct {
   PtrNoPilha topo;
   int tamanho;
 } PilhaDinamica;
+
+
+//Função pow escrita manualmente
+int power(int x, unsigned n)
+{
+    // initialize result by 1
+    int pow = 1;
+
+    // multiply x exactly n times
+    for (int i = 0; i < n; i++) {
+        pow = pow * x;
+    }
+
+    return pow;
+}
 
 
 //Funções de manipulação/Consulta da Pilha Estática
@@ -297,7 +311,7 @@ void DecToBinDinamica(FILE* entrada, FILE* saida) {
                 int numerosDesempilhados = 0; //variável para transformar todos os valores desempilhados em um único número 
                 while(!estaVaziaDinamica(&PilhaDinamicaDTB)) {
                     desempilhado = desempilhaDinamica(&PilhaDinamicaDTB);
-                    numerosDesempilhados += desempilhado * pow(10, tam-1); //detecta se o valor é uma unidade/dezena/centena/... (imaginando o binário como se fosse um decimal)
+                    numerosDesempilhados += desempilhado * power(10, tam-1); //detecta se o valor é uma unidade/dezena/centena/... (imaginando o binário como se fosse um decimal)
                     tam -= 1;
                 }
                 empilhaDinamica(numerosDesempilhados, &PilhaDinamicaArq); //empilha o binário na pilha de troca de ordem
