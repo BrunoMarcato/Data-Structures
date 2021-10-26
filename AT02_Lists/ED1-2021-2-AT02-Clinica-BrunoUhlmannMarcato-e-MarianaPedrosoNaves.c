@@ -73,7 +73,7 @@ int tamanhoLista(Lista *lista) {
 void imprimirLista(Lista *lista, FILE* saida) {
     PtrNoLista percorre;
     for(percorre = lista -> primeiro; percorre != NULL; percorre = percorre -> proximo) { 
-        //imprime no arquivo os dados obtidos
+        //imprime no arquivo os dados obtidos, do inicio ao final
         fprintf(saida, "{%d,%s\n", percorre -> registro.codigo, percorre -> registro.infos);
     }
 }//imprimirLista
@@ -135,22 +135,31 @@ bool pesquisa(Lista *lista, int chave, FILE* saida) {
 //================================================
 
 void inserir(Lista *lista, Registro newReg) {
+
     //Crie um ponteiro para listar o nó e vincular o valor passado como argumento como uma chave deste novo nó  
     PtrNoLista novoNo = (PtrNoLista)malloc(sizeof(NoLista));
     novoNo -> registro = newReg;
+
+
     //case 1: Primeiro Elemento
     if(estaVazia(lista)) {
+
         novoNo -> proximo = lista -> primeiro;
         novoNo -> anterior = NULL;
         lista -> primeiro = novoNo;
         lista -> ultimo = novoNo; //para a duplamente encadeada, teremos um ponteiro para o fim da lista, como se trata do primeiro elemento, ele recebe tanto o inicio quanto o fim
+
+
     } else if(newReg.codigo < lista -> primeiro -> registro.codigo) {
+
         //case 2: codigo passado como argumento menor que o codigo do primeiro registro na lista
         novoNo -> proximo = lista -> primeiro;
         novoNo -> anterior = lista -> primeiro -> anterior;
         lista -> primeiro -> anterior = novoNo;
         lista -> primeiro = novoNo;
+
     } else {
+
         //case 3: Não é o primeiro registro a ser inserido na lista 
         //case 3.1: O novo registro é o último a ser inserido na lista (código do registro maior que o código de todos os outros registros)
         if(newReg.codigo > lista -> ultimo -> registro.codigo) {
@@ -159,7 +168,9 @@ void inserir(Lista *lista, Registro newReg) {
             novoNo -> proximo = NULL;
             novoNo -> anterior = aux; //O ponteiro anterior do novo nó aponta pro nó auxiliar (o antigo último nó)
             aux -> proximo = novoNo;
+
         } else {
+
             //case 3.2: Elemento intermediário (solução é praticamente a mesma da lista simplesmente encadeada pois, para esse caso, não se altera com o ponteiro que aponta pro último elemento)
             //única alteração é a manipulação do ponteiro que aponta pro nó anterior
             PtrNoLista aux = lista -> primeiro;
@@ -170,10 +181,13 @@ void inserir(Lista *lista, Registro newReg) {
             novoNo -> anterior = aux; // para a duplamente encadeada, o ponteiro anterior do novo nó aponta para o nó apontado pelo auxiliar como o ponto de "encaixe"
             aux -> proximo = novoNo;
             novoNo -> proximo -> anterior = novoNo;
+
         }    
     }
+
     //Increase the size list
     lista -> tamanho++;
+
 }
 
 //================================================
@@ -277,7 +291,7 @@ int main(int argc, const char * argv[]) {
     Lista lista;
     Registro registro;
     int op; //código de operação
-    int codPesquisa = 0; //para caso seja a operação número 3, a variável guardará o código a ser pesquisado na lista
+    int codPesquisa; //para caso seja a operação número 3, a variável guardará o código a ser pesquisado na lista
 
     //=======================================
     //INICIAR A LISTA
@@ -310,13 +324,13 @@ int main(int argc, const char * argv[]) {
 
 
     switch (op) {
-        case 1:
+        case 1: //operação 1: imprimir os registros em ordem crescente de código 
             imprimirLista(&lista, saida);
             break;
-        case 2:
+        case 2: //operação 2: imprimir os registros em ordem decrescente de código
             imprimirListaReversa(&lista, saida);
             break;
-        case 3:
+        case 3: //operação 3: imprimir o registro com o código passado
             pesquisa(&lista, codPesquisa, saida);
             break;
             default:
