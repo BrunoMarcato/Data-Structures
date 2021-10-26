@@ -21,6 +21,7 @@ typedef struct NodeList {
 
 typedef struct {
   Pointer first;
+  Pointer end;
   int size;
 } List;
 
@@ -28,6 +29,7 @@ typedef struct {
 void initList(List *list);
 void insert(List *list, int x);
 void printList(List *list);
+void reversePrintList(List *list);
 void destroyList(List *list);
 bool isEmpty(List *list);
 bool search(List *list, int key);
