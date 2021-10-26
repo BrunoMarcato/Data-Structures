@@ -21,12 +21,12 @@ typedef struct NoLista *PtrNoLista;
 typedef struct NoLista {
     Registro registro;
     PtrNoLista proximo;
-    PtrNoLista anterior;
+    PtrNoLista anterior; //Para a lista duplamente encadeada, teremos um ponteiro, em cada nó, que aponta pro nó anterior a ele 
 } NoLista;
 
 typedef struct {
     PtrNoLista primeiro;
-    PtrNoLista ultimo;
+    PtrNoLista ultimo; //Para a lista duplamente encadeada, teremos um ponteiro que aponta pro último elemento da lista
     int tamanho;
 } Lista;
 
