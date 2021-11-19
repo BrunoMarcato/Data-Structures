@@ -17,7 +17,7 @@ As estruturas de dados que serão trabalhadas neste repositório são:
 - [X] Listas Ordenadas (Implementação Dinâmica)
    - [X] Lista Singularmente Encadeada
    - [X] Lista Duplamente Encadeada
-- [ ] Árvores binárias
+- [X] Árvores binárias (Implementação Recursiva)
 - [ ] Árvores AVL
 - [ ] Tabela Hash
 - [ ] Grafos
