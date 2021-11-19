@@ -4,6 +4,7 @@
 
 void initList(List *list) {
     list -> first = NULL;
+    list -> end = NULL;
     list -> size = 0;
 }//initList
 
@@ -111,7 +112,7 @@ void insert(List *list, int x) {
     //Increase the size list
     list -> size++;
 }
-
+        
 //------------------------------------------
 
 //4 casos:
