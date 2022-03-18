@@ -18,4 +18,4 @@ As estruturas de dados que são trabalhadas neste repositório são:
    - [X] Lista Singularmente Encadeada
    - [X] Lista Duplamente Encadeada
 - [X] Árvores binárias (Implementação Recursiva)
-- [ ] Árvores AVL (Implementação Recursiva)
+- [X] Árvores AVL (Implementação Recursiva)
