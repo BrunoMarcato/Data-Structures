@@ -6,7 +6,7 @@ Para mais informações [clique aqui](https://pt.wikipedia.org/wiki/Estrutura_de
 
 -----------------------------------------------------------------------------------------------------------
 
-As estruturas de dados que serão trabalhadas neste repositório são:
+As estruturas de dados que são trabalhadas neste repositório são:
 
 - [X] Pilhas 
    - [X] Implementação Estática
@@ -17,7 +17,5 @@ As estruturas de dados que serão trabalhadas neste repositório são:
 - [X] Listas Ordenadas (Implementação Dinâmica)
    - [X] Lista Singularmente Encadeada
    - [X] Lista Duplamente Encadeada
-- [ ] Árvores binárias
-- [ ] Árvores AVL
-- [ ] Tabela Hash
-- [ ] Grafos
+- [X] Árvores binárias (Implementação Recursiva)
+- [ ] Árvores AVL (Implementação Recursiva)
